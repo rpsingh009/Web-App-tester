@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+{%load static%}
+{% load my_filter %}
+<html lang="en">
+   <head>
+      <link href="/static/icon.png" rel="icon">
+      <link href="/static/style.css" rel="stylesheet">
+      <link type="text/css" rel="stylesheet" href="/static/base.css" />
+        <link type="text/css" rel="stylesheet" href="/static/results.css" />
+      <title>Showing results for https://www.w3schools.com/</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+      <style>
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+
+            td {
+                border: 1px black solid;
+                padding: 5px;
+            }
+
+
+.wrapper {
+    margin: 0 auto;
+    width: 90%;
+}
+
+header {
+    width: 100%;
+    max-width: 100%;
+    position: fixed;
+    z-index: 999;
+    background: rgba(50,50,50,.95);
+    box-shadow: 0 10px 20px rgba(50,50,50,.95);
+}
+
+nav {
+    margin-top: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+nav a {
+    font: 1.2em/1em sans-serif;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+}
+        </style>
+   </head>
+   <body>
+      <header>
+      <div class="wrapper">
+          <nav>
+            <a href="#">Home</a>
+            
+            {% if not request.user.is_authenticated %}
+            <a href="login">Login</a>
+            <a href="signup">Sign Up</a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <a href="/logout/">Logout</a>
+            <a href="#" style="float:right">{{request.user.first_name}}  {{request.user.last_name}}</a>
+            {% endif %}
+            
+          </nav>
+      </div>
+    </header>
+
+      
+      <h2 id="top">Showing results for {{qlink}}</h2>
+      <script src="{% static 'script.js' %}"></script><script src="data:text/javascript,var%20_paq%3Dwindow._paq%7C%7C%5B%5D%3B_paq.push%28%5B%22trackPageView%22%5D%29%2C_paq.push%28%5B%22enableLinkTracking%22%5D%29%2Cfunction%28%29%7Bvar%20e%3D%22https%3A%2F%2Fwww.w3.org%2Fanalytics%2Fpiwik%2F%22%3B_paq.push%28%5B%22setTrackerUrl%22%2Ce%2B%22matomo.php%22%5D%29%2C_paq.push%28%5B%22setSiteId%22%2C%22444%22%5D%29%3Bvar%20a%3Ddocument%2Ct%3Da.createElement%28%22script%22%29%2Cp%3Da.getElementsByTagName%28%22script%22%29%5B0%5D%3Bt.type%3D%22text%2Fjavascript%22%2Ct.async%3D%210%2Ct.defer%3D%210%2Ct.src%3De%2B%22matomo.js%22%2Cp.parentNode.insertBefore%28t%2Cp%29%7D%28%29%3B"></script>
+      <div id="errors" style="padding: 3%">
+      <h3>We found the following errors In HTML </h3>
+  </div>
+      <div id="results">
+      	
+         <ol>
+         	{% for res in messages%}
+         	{% if res.type == 'error' %}
+	            <li class="error">
+	               <p><strong>Error</strong>: <span>{{res.message}}</span></p>
+	               <p class="location">At line <span class="last-line">{{res.lastLine}}</span>, column <span class="last-col">{{res.lastColumn}}</span></p>
+	               <p class="extract" ><code><span class="lf" title="Line break" ></span>{{res.extract|replace_newline}}</span></code></p>
+	            </li>
+            {% endif %}
+            {% if res.type == 'info' %}
+	            <li class="info warning">
+	               <p><strong>Warning</strong>: <span>{{res.message}}</span></p>
+	               <p class="location">From line <span class="first-line">{{res.lastLine}}</span>, column <span class="first-col">{{res.firstColumn}}</span>; to line <span class="last-line">{{res.lastLine}}</span>, column <span class="last-col">{{res.lastColumn}}</span></p>
+	               <p class="extract" ><code><span class="lf" title="Line break" ></span>{{res.extract|replace_newline}}</span></code></p>
+	            </li>
+            {% endif %}
+            
+            {% endfor %}
+
+            <script src="http://d3js.org/d3.v3.min.js"></script>
+    		<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+
+        
+         </ol>
+         {% if css_error %}
+<!------------------------------------------------------------------------------------>
+            <div id="errors">
+            <h3>We found the following errors In CSS </h3>
+                    <div class="error-section-all">
+
+                                                                                                    <div class="error-section">
+		                    <h4>URI : <a href="{{css_source}}">{{css_source}}</a></h4>
+		                    <table>
+		                    	{% for css_err in css_error%}
+                                                    <tr class="error" width="20">
+                            <td class="linenumber" title="Line {{line}}">{{css_err.line}}</td>
+                            <td class="codeContext"> {{css_err.type}} </td>
+                            <td class="parse-error">
+                                             
+                                            <span class="exp">
+                                   {{css_err.message|replace_newline}}
+                                </span>
+                         </td>
+                        </tr>
+                        {% endfor %}                                                                    
+            </table>
+                    <!--end of individual error section-->
+                    </div>
+                                
+                    </div>
+        </div>
+<!------------------------------------------------------------------------------------------------>
+       {% endif %}
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+   <script>
+
+function autorefresh() {
+        // auto refresh page after 1 second
+        myTimer =setInterval('refreshPage()', 5000);
+}
+
+function refreshPage() {
+        $.ajax({
+        url: '{% url 'validate_1' %}',
+        success: function(data) {
+        $('#console').html(data);
+        }
+    });
+}
+</script>
+.
+.
+.
+<script>autorefresh()
+
+
+</script>
+
+<div id="console" >
+                    
+        <script type="text/javascript"charset="utf-8">
+        	var link="{{links}}"
+        	
+            d3.text(link ,	 function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("body")
+                    .append("table")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d) { return d; });
+		});
+
+
+			
+            
+        </script>
+        </div>
+      <img style="text-align: center;" src="https://miro.medium.com/max/1600/1*CsJ05WEGfunYMLGfsT2sXA.gif"  class="center"></img>
+   </body>
+</html>

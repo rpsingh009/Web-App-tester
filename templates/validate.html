@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{%load static%}
+{% load my_filter %}
+<html lang="en">
+   <head>
+      <link href="/static/icon.png" rel="icon">
+      <link href="/static/style.css" rel="stylesheet">
+      <title>Showing results for https://www.w3schools.com/</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+      <style>
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+
+            td {
+                border: 1px black solid;
+                padding: 5px;
+            }
+        </style>
+   </head>
+
+
+       
+
+<div id="console" >
+                    <div id="errors">
+      <h3>We found the following Broken Links </h3>
+ 
+        <script type="text/javascript"charset="utf-8">
+        	var link="{{links}}"
+        	
+            d3.text(link ,	 function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("body")
+                    .append("table")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d) { return d; });
+            });
+
+            $.ajax({
+				url:'{{links}}',
+				type:'HEAD',
+				error: function()
+				{
+				
+				},
+				success: function()
+			{clearInterval(myTimer);
+
+		}
+		});
+            
+        </script>
+         </div>
+        
+
+        </div>
+      
+   </body>
+</html>
